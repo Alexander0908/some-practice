@@ -37,7 +37,6 @@ for (let i = 0; i < 2; i++) {
         i--;
     }
 }
-d
 
 if (personalMovieDB.count < 10) {
     alarm("Просмотрено довольно мало фильмов")
