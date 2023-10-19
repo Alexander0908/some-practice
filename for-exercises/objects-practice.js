@@ -15,7 +15,13 @@ const options = {
 
 options.makeTest();
 
-console.log(Object.keys(options).length);
+const {
+    border,
+    bg
+} = options.colors; // Деструктуризация
+console.log(border);
+
+//console.log(Object.keys(options).length);
 
 // console.log(options['colors']['bg']);
 
