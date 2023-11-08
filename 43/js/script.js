@@ -19,22 +19,36 @@ const btn = document.querySelector('.btn');
 let timeId,
     i = 0;
 
-btn.addEventListener('click', () => {
-    // const timeId = setTimeout(logger, 2000);
-    timerId = setInterval(logger, 500);
-});
+function myAnimation() {
+    const elem = document.querySelector('.box');
+    let pos = 0;
 
-clearInterval(timeId);
-
-function logger() {
-    if (i === 3) {
-        clearInterval(timeId);
+    function frame() {
+        if (pos == 300) {
+            clearInterval();
+        } else {
+            pos++;
+            elem.style.top =
+        }
     }
-    console.log('text');
-    i++;
 }
 
-let id = setTimeout(function log() {
-    console.log('Hello');
-    id = setTimeout(log, 500);
-}, 500);
+// btn.addEventListener('click', () => {
+//     // const timeId = setTimeout(logger, 2000);
+//     timerId = setInterval(logger, 500);
+// });
+
+// clearInterval(timeId);
+
+// function logger() {
+//     if (i === 3) {
+//         clearInterval(timeId);
+//     }
+//     console.log('text');
+//     i++;
+// }
+
+// let id = setTimeout(function log() {
+//     console.log('Hello');
+//     id = setTimeout(log, 500);
+// }, 500);
