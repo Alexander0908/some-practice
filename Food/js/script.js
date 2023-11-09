@@ -144,4 +144,8 @@ window.addEventListener('DOMContentLoaded', () => {
     });
 
     const modalTimerid = setTimeout(openModal, 5000);
+
+    window.addEventListener('scroll', () => {
+
+    })
 });
