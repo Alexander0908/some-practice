@@ -85,3 +85,38 @@ function setFilmsIds(arr) {
 function checkFilms(arr) {
     return arr.every(film => film.id || film.id === 0 ? true : false)
 }
+
+
+/// other exercises
+
+const funds = [{
+        amount: -1400
+    },
+    {
+        amount: 2400
+    },
+    {
+        amount: -1000
+    },
+    {
+        amount: 500
+    },
+    {
+        amount: 10400
+    },
+    {
+        amount: -11400
+    }
+];
+
+const getPositiveIncomeAmount = (data) => {
+    return data.filter(item => item.amount > 0).reduce((acc, current) => acc + current.amount, 0)
+};
+
+getPositiveIncomeAmount(funds);
+
+const getTotalIncomeAmount = (data) => {
+    return data.some(item => item.amount < 0) ? data.reduce((acc, current) => acc + current.amount, 0) : getPositiveIncomeAmount(data)
+}
+
+getTotalIncomeAmount(funds);
