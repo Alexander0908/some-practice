@@ -182,6 +182,23 @@ window.addEventListener('DOMContentLoaded', function () {
         }
     }
 
+    const getResource = async (url) => {
+        const res = await fetch(url);
+
+        if (!res.ok) {
+            throw new Error(`Could not fetch ${url}, status: ${res.status}`);
+        }
+
+        return await res.json();
+    }
+
+    getResource('http://localhost:3000/menu')
+        .then(data => {
+            data.forEach(obj => {
+                new MenuCard().render();
+            });
+        });
+
     new MenuCard(
         "img/tabs/vegy.jpg",
         "vegy",
@@ -219,10 +236,22 @@ window.addEventListener('DOMContentLoaded', function () {
     }
 
     forms.forEach(item => {
-        postData(item);
+        bindPostData(item);
     })
 
-    function postData(form) {
+    const postData = async (url, data) => {
+        const res = await fetch(url, {
+            method: "POST",
+            headers: {
+                'Content-type': 'application/json'
+            },
+            body: data
+        });
+
+        return await res.json();
+    }
+
+    function bindPostData(form) {
         form.addEventListener('submit', (e) => {
             e.preventDefault();
 
@@ -236,18 +265,9 @@ window.addEventListener('DOMContentLoaded', function () {
 
             const formData = new FormData(form);
 
-            const object = {};
-            formData.forEach(function (value, key) {
-                object[key] = value;
-            });
+            const json = JSON.stringify(Object.fromEntries(formData.entries()));
 
-            fetch('server.php', {
-                    method: "POST",
-                    headers: {
-                        'Content-type': 'application/json'
-                    },
-                    body: JSON.stringify(object)
-                }).then(data => data.text())
+            postData('http://localhost:3000/requests', json)
                 .then(data => {
                     console.log(data);
                     showThanksModal(message.success);
@@ -283,4 +303,8 @@ window.addEventListener('DOMContentLoaded', function () {
             closeModal();
         }, 4000)
     }
+
+    fetch('http://localhost:3000/menu')
+        .then(data => data.json())
+        .then(res => console.log(res));
 });
