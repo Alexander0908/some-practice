@@ -33,3 +33,8 @@ btn.addEventListener('click', () => requestAnimationFrame(myAnimation));
 // also it can be done like this:
 let id = requestAnimationFrame(myAnimation);
 cancelAnimationFrame(id);
+
+
+let y = 1;
+let x = y = 2;
+console.log(x)
