@@ -1,4 +1,4 @@
-import {useState, memo, useCallback} from 'react';
+import {useState, memo, useCallback, Component, createContext} from 'react';
 import {Container} from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.css';
 import './App.css';
@@ -43,7 +43,7 @@ const Form = memo((props) => {
             <form className="w-50 border mt-5 p-3 m-auto">
                 <div className="mb-3">
                     <label htmlFor="exampleFormControlInput1" className="form-label mt-3">Email address</label>
-                    <input value={props.mail} type="email" className='form-control' id="exampleFormControlInput1" placeholder="name@example.com"/>
+                    <InputComponent mail={props.mail}/>
                     </div>
                     <div className="mb-3">
                     <label htmlFor="exampleFormControlTextarea1" className="form-label">Example textarea</label>
@@ -54,6 +54,20 @@ const Form = memo((props) => {
     )
 });
 
+class InputComponent extends Component {
+    render() {
+        return (
+            <input value={this.props.mail} type="email" className='form-control' id="exampleFormControlInput1" placeholder="name@example.com"/>
+        )
+    }
+}
+
+const dataContext = createContext({
+    mail: "name@example.com",
+    text: 'some text'
+});
+
+console.log(dataContext);
 
 function App() {
     const [data, setData] = useState({
