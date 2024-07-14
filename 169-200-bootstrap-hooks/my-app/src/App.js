@@ -3,6 +3,14 @@ import {Container} from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.css';
 import './App.css';
 
+
+const dataContext = createContext({
+    mail: "name@example.com",
+    text: 'some text'
+});
+
+const {Provider, Consumer} = dataContext; 
+
 // class Form extends Component {
 
 //     shouldComponentUpdate(nextProps) {
@@ -43,7 +51,7 @@ const Form = memo((props) => {
             <form className="w-50 border mt-5 p-3 m-auto">
                 <div className="mb-3">
                     <label htmlFor="exampleFormControlInput1" className="form-label mt-3">Email address</label>
-                    <InputComponent mail={props.mail}/>
+                    <InputComponent/>
                     </div>
                     <div className="mb-3">
                     <label htmlFor="exampleFormControlTextarea1" className="form-label">Example textarea</label>
@@ -57,17 +65,22 @@ const Form = memo((props) => {
 class InputComponent extends Component {
     render() {
         return (
-            <input value={this.props.mail} type="email" className='form-control' id="exampleFormControlInput1" placeholder="name@example.com"/>
+            <Consumer>
+                {
+                    value => {
+                        return (
+                            <input 
+                                value={value.mail} 
+                                type="email" 
+                                className='form-control' 
+                                placeholder="name@example.com"/>
+                        )
+                    }
+                }
+            </Consumer>
         )
     }
 }
-
-const dataContext = createContext({
-    mail: "name@example.com",
-    text: 'some text'
-});
-
-console.log(dataContext);
 
 function App() {
     const [data, setData] = useState({
@@ -80,16 +93,16 @@ function App() {
     }, []);
 
     return (
-        <>
-            <Form mail={data.mail} text={data.text} onLog={onLog}/>
+        <Provider value={data}>
+            <Form text={data.text} onLog={onLog}/>
             <button 
                 onClick={() => setData({
-                    mail: "name@example.com",
-                    text: 'some text'
+                    mail: "second@example.com",
+                    text: 'another text'
                 })}>
                 Click me
             </button>
-        </>
+        </Provider>
     );
 }
 
