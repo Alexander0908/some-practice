@@ -1,15 +1,36 @@
-import {useState, memo, useCallback, Component, createContext} from 'react';
-import {Container} from 'react-bootstrap';
+import {useState} from 'react';
 import 'bootstrap/dist/css/bootstrap.css';
 import './App.css';
+import Form from './Form';
+import dataContext from './context';
 
+const {Provider} = dataContext;
 
-const dataContext = createContext({
-    mail: "name@example.com",
-    text: 'some text'
-});
+function App() {
+    const [data, setData] = useState({
+        mail: "name@example.com",
+        text: 'some text',
+        forceChangeMail: forceChangeMail // в нашем контексте будет ссылка на нашу функцию
+    });
 
-const {Provider, Consumer} = dataContext; 
+    function forceChangeMail() {
+        setData({...data, mail: 'test@gmail.com'})
+    }
+
+    return (
+        <Provider value={data}>
+            <Form text={data.text}/>
+            <button 
+                onClick={() => setData({
+                    mail: "second@example.com",
+                    text: 'another text',
+                    forceChangeMail: forceChangeMail
+                })}>
+                Click me
+            </button>
+        </Provider>
+    );
+}
 
 // class Form extends Component {
 
@@ -43,68 +64,37 @@ const {Provider, Consumer} = dataContext;
 //     return prevProps.mail.name === nextProps.mail.name;
 // }
 
-const Form = memo((props) => {
-    console.log('render');
 
-    return (
-        <Container>
-            <form className="w-50 border mt-5 p-3 m-auto">
-                <div className="mb-3">
-                    <label htmlFor="exampleFormControlInput1" className="form-label mt-3">Email address</label>
-                    <InputComponent/>
-                    </div>
-                    <div className="mb-3">
-                    <label htmlFor="exampleFormControlTextarea1" className="form-label">Example textarea</label>
-                    <textarea value={props.text} className="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
-                </div>
-            </form>
-        </Container>
-    )
-});
 
-class InputComponent extends Component {
-    render() {
-        return (
-            <Consumer>
-                {
-                    value => {
-                        return (
-                            <input 
-                                value={value.mail} 
-                                type="email" 
-                                className='form-control' 
-                                placeholder="name@example.com"/>
-                        )
-                    }
-                }
-            </Consumer>
-        )
-    }
-}
+// class InputComponent extends Component {
 
-function App() {
-    const [data, setData] = useState({
-        mail: "name@example.com",
-        text: 'some text'
-    });
+//     static contextType = dataContext;
 
-    const onLog = useCallback(() => {
-        console.log('wow');
-    }, []);
+//     render() {
+//         return (
+//             <Consumer>
+//                 {
+//                     value => {
+//                         return (
+//                             <input 
+//                                 value={value.mail} 
+//                                 type="email" 
+//                                 className='form-control' 
+//                                 placeholder="name@example.com"/>
+//                         )
+//                     }
+//                 }
+//             </Consumer>
+//             <input 
+//                 value={this.context.mail} 
+//                 type="email" 
+//                 className='form-control' 
+//                 placeholder="name@example.com"/>
+//         )
+//     }
+// }
 
-    return (
-        <Provider value={data}>
-            <Form text={data.text} onLog={onLog}/>
-            <button 
-                onClick={() => setData({
-                    mail: "second@example.com",
-                    text: 'another text'
-                })}>
-                Click me
-            </button>
-        </Provider>
-    );
-}
+
 
 ///
 
