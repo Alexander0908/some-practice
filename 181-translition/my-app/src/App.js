@@ -1,36 +1,23 @@
 import {useState} from 'react';
 import {Container} from 'react-bootstrap';
-import { Transition } from 'react-transition-group';
+import { CSSTransition } from 'react-transition-group';
 import './App.css';
 
 const Modal = (props) => {
 
     const duration = 300;
 
-    const defaultStyle = {
-        transition: `all ${duration}ms ease-in-out`,
-        opacity: 0,
-        visibility: 'hidden'
-    }
-
-    const transitionStyles = {
-        entering: { opacity: 1, visibility: 'visible' },
-        entered:  { opacity: 1, visibility: 'visible' },
-        exiting:  { opacity: 0, visibility: 'hidden' },
-        exited:  { opacity: 0, visibility: 'hidden' },
-    };
-
     return (
-        <Transition 
+        <CSSTransition 
             in={props.show} 
             timeout={duration} 
             onEnter={() => props.setShowTrigger(false)}
-            onExited={() => props.setShowTrigger(true)}>
-            {state => (
-                <div className="modal mt-5 d-block" style={{
-                    ...defaultStyle,
-                    ...transitionStyles[state]
-                  }}>
+            onExited={() => props.setShowTrigger(true)}
+            classNames="modal"
+            mountOnEnter
+            unmountOnExit>
+
+                <div className="modal mt-5 d-block">
                     <div className="modal-dialog">
                         <div className="modal-content">
                         <div className="modal-header">
@@ -47,8 +34,7 @@ const Modal = (props) => {
                         </div>
                     </div>
                 </div>
-            )}
-        </Transition>
+        </CSSTransition>
     )
 }
 
