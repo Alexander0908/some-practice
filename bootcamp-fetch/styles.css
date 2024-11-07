@@ -19,6 +19,12 @@ button {
     font: orange;
 }
 
+button:hover {
+    background-color: #a16a03;
+    color: white;
+    cursor: pointer;
+}
+
 input {
     padding: 5px;
     border: 1px solid gray;
